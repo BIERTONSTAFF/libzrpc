@@ -1,3 +1,6 @@
+#![allow(incomplete_features)]
+#![feature(specialization)]
+
 pub mod client;
 pub mod error;
 pub mod middleware;

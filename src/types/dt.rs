@@ -4,14 +4,6 @@ pub trait ZRpcDtAuto {
     fn to_zdt(&self) -> ZRpcDt;
 }
 
-pub trait ZRpcDtSerialize: Serialize {}
-
-impl<T: ZRpcDtSerialize> ZRpcDtAuto for T {
-    fn to_zdt(&self) -> ZRpcDt {
-        ZRpcDt::serialize(self)
-    }
-}
-
 impl ZRpcDtAuto for &str {
     fn to_zdt(&self) -> ZRpcDt {
         ZRpcDt::String(self.to_string())
@@ -93,6 +85,12 @@ impl ZRpcDtAuto for bool {
 impl ZRpcDtAuto for Vec<u8> {
     fn to_zdt(&self) -> ZRpcDt {
         ZRpcDt::Serialized(self.clone())
+    }
+}
+
+impl<T: Serialize> ZRpcDtAuto for T {
+    default fn to_zdt(&self) -> ZRpcDt {
+        ZRpcDt::serialize(self)
     }
 }
 
